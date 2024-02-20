@@ -53,9 +53,6 @@ export default class Tile {
     ctx.moveTo(bottomCorner.x, bottomCorner.y)
     ctx.lineTo(rightCorner.x, rightCorner.y)
 
-    // center point
-    ctx.fillRect(center.x - 2, center.y - 2, 4, 4)
-
     ctx.stroke()
   }
 }

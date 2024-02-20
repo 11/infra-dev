@@ -21,8 +21,8 @@ export default class Grid {
    * @returns [][]Tile
    */
   #createGrid(size) {
-    const xOffset = 10
-    const yOffset = 0
+    const xOffset = 8
+    const yOffset = -2
 
     const grid = []
     for (let i = 0; i < size; i++) {
