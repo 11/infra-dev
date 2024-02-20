@@ -1,5 +1,6 @@
-import Utils from './utils.js'
-import Colors from './colors.js'
+import Colors from '../engine/graphics/colors.js'
+import Utils from '../engine/utils.js'
+
 import Tile from './tile.js'
 
 export default class Grid {

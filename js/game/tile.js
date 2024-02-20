@@ -1,5 +1,5 @@
-import { Vector2 } from './threejs-math/index.js'
-import Colors from './colors.js'
+import { Vector2 } from '../engine/threejs-math/index.js'
+import Colors from '../engine/graphics/colors.js'
 
 export default class Tile {
   static SIZE = 32

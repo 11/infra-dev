@@ -1,3 +1,5 @@
+import RotatingQueue from '../collections/rotating-queue.js'
+
 export default class Mouse {
   static LEFT = 0
   static RIGHT = 1
@@ -11,10 +13,15 @@ export default class Mouse {
     return this.y
   }
 
+  get events() {
+    return this.mouseEvents
+  }
+
   constructor(canvas) {
     this.canvas = canvas
-    this.rect = canvas.getBoundingClientRect()
+    this.mouseEvents = new RotatingQueue(this.bufferSize)
 
+    this.canvasRect = canvas.getBoundingClientRect()
     this.x = 0
     this.y = 0
 
@@ -34,15 +41,34 @@ export default class Mouse {
   }
 
   onMouseMove(event) {
-    this.x = Math.floor(event.clientX - this.rect.x)
-    this.y = Math.floor(event.clientY - this.rect.y)
+    this.x = Math.floor(event.clientX - this.canvasRect.x)
+    this.y = Math.floor(event.clientY - this.canvasRect.y)
+
+    this.mouseEvents.push({
+      action: 'move',
+      x: this.x,
+      y: this.y,
+    })
   }
 
   onMouseUp(event) {
-    console.log('mouse up')
+    this.mouseEvents.push({
+      type: 'up',
+      keyCode: event.button,
+      x: this.x,
+      y: this.y,
+    })
   }
 
   onMouseDown(event) {
-    console.log('mouse down')
+    this.mouseEvents.push({
+      type: 'down',
+      keyCode: event.button,
+      x: this.x,
+      y: this.y,
+    })
   }
+
+  // TODO:
+  // onScroll(_event) { }
 }
