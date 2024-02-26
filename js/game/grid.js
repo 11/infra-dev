@@ -1,24 +1,23 @@
-import Colors from '../engine/graphics/colors.js'
 import Utils from '../engine/utils.js'
+import TextureRegion from '../engine/graphics/texture-region.js'
 
 import Tile from './tile.js'
 
 export default class Grid {
-  color = null
   size = null
   grid = null
+  debug = true
 
   /**
    *
    * @param {Number} size
    * @param {String} color
    */
-  constructor(size = 10, color = Colors.WHITE) {
-    this.color = color
-
+  constructor(size = 10, debug = true) {
     this.size = Utils.clamp(size, 1, 50)
+    this.debug = debug
+
     this.grid = this.#createGrid(this.size)
-    this.grid[0][0].ImageID = 'server'
   }
 
   /**
@@ -37,7 +36,7 @@ export default class Grid {
       for (let j = 0; j < size; j++) {
         const x = i + xOffset
         const y = j + yOffset
-        grid[i][j] = new Tile(x, y)
+        grid[i][j] = new Tile(x, y, 'dirt-tileset', this.debug)
       }
     }
 

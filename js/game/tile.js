@@ -21,25 +21,25 @@ export default class Tile {
    *
    * @param {Number} x
    * @param {Number} y
-   * @param {String} imageId
+   * @param {imageId} string
    * @param {String} color
    * @param {Boolean} debug
    */
-  constructor(x, y, imageId = null, color = Colors.BLUE, debug = true) {
+  constructor(x, y, imageId = null, debug = true, color = Colors.RED) {
     this.pos = new Vector2(x, y)
     this.#toIsometric()
 
-    this.color = color
     this.image = new TextureRegion(
-      'dirt-tileset',
+      imageId,
       102, 0, // spritesheet dx and dy
       102, 101, // spritesheet dw and dh
       this.pos.x - Tile.SIZE, // subtract 1 tile's size to render image based on the center of a tile
-      this.pos.y - Tile.SIZE / 2, // same logic applies of height, but need to half to force the isometric perspective
+      this.pos.y - Tile.SIZE / 2, // same logic applies for a tile's height, but need to half the height to force the isometric perspective
       Tile.SIZE * 2, Tile.SIZE * 2 // double the size of the image to file the grid cell
     )
 
     this.debug = debug
+    this.color = color
   }
 
   #toIsometric() {
@@ -66,7 +66,7 @@ export default class Tile {
 
     ctx.strokeStyle = this.color
     ctx.fillStyle = this.color
-    ctx.lineWidth = 1
+    ctx.lineWidth = 3
     ctx.beginPath()
 
     ctx.moveTo(topCorner.x, topCorner.y)
@@ -93,7 +93,13 @@ export default class Tile {
       return
     }
 
-    this.image.draw(ctx)
+    if (this.debug) {
+      ctx.globalAlpha = 0.1
+      this.image.draw(ctx)
+      ctx.globalAlpha = 1
+    } else {
+      this.image.draw(ctx)
+    }
   }
 
   /**
