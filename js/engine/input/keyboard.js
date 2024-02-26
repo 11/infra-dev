@@ -47,18 +47,16 @@ export default class Keybaord {
   constructor(canvas) {
     this.canvas = canvas
     this.keyEvents = new RotatingQueue(this.bufferSize)
-
-    this.create()
   }
 
   create() {
-    this.canvas.addEventListener('keydown', this.onKeyDown.bind(this))
-    this.canvas.addEventListener('keyup', this.onKeyDown.bind(this))
+    window.addEventListener('keydown', this.onKeyDown.bind(this), true)
+    window.addEventListener('keyup', this.onKeyUp.bind(this), false)
   }
 
   destroy() {
-    this.canvas.removeEventListener('keydown', this.onKeyDown.bind(this))
-    this.canvas.removeEventListener('keyup', this.onKeyDown.bind(this))
+    window.removeEventListener('keydown', this.onKeyDown.bind(this))
+    window.removeEventListener('keyup', this.onKeyUp.bind(this))
   }
 
   onKeyDown(event) {

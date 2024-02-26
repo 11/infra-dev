@@ -19,13 +19,11 @@ export default class Mouse {
 
   constructor(canvas) {
     this.canvas = canvas
-    this.mouseEvents = new RotatingQueue(this.bufferSize)
+    this.mouseEvents = new RotatingQueue()
 
     this.canvasRect = canvas.getBoundingClientRect()
     this.x = 0
     this.y = 0
-
-    this.create()
   }
 
   create() {
@@ -45,7 +43,7 @@ export default class Mouse {
     this.y = Math.floor(event.clientY - this.canvasRect.y)
 
     this.mouseEvents.push({
-      action: 'move',
+      type: 'move',
       x: this.x,
       y: this.y,
     })

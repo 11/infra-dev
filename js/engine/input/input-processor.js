@@ -11,6 +11,10 @@ export default class InputProcessor {
     console.log('Mouse Pressed', keycode, x, y)
   }
 
+  mouseMoved(x, y) {
+    console.log('Mouse Moved', x, y)
+  }
+
   keyUp(keycode) {
     console.log('Key Up', keycode)
   }

@@ -4,6 +4,10 @@ import Utils from '../engine/utils.js'
 import Tile from './tile.js'
 
 export default class Grid {
+  color = null
+  size = null
+  grid = null
+
   /**
    *
    * @param {Number} size
@@ -14,6 +18,7 @@ export default class Grid {
 
     this.size = Utils.clamp(size, 1, 50)
     this.grid = this.#createGrid(this.size)
+    this.grid[0][0].ImageID = 'server'
   }
 
   /**
@@ -30,7 +35,9 @@ export default class Grid {
       grid[i] = []
 
       for (let j = 0; j < size; j++) {
-        grid[i][j] = new Tile(i + xOffset, j + yOffset)
+        const x = i + xOffset
+        const y = j + yOffset
+        grid[i][j] = new Tile(x, y)
       }
     }
 

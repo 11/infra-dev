@@ -1,10 +1,37 @@
 import Keyboard from './input/keyboard.js'
 import Mouse from './input/Mouse.js'
-import InputReader from './input/input-reader.js'
-import InputProcessor from './input/input-processor.js'
+import InputManager from './input/input-manager.js'
 import ScreenManager from './screens/screen-manager.js'
+import AssetManager from './collections/asset-manager.js'
 
 export default class Game {
+  canvas = null
+  ctx = null
+
+  keyboard = null
+  mouse = null
+  inputProcessor = null
+  inputManager = null
+  screenManager = null
+  assetManager = null
+
+  set InputProcessor(newInputProcesor) {
+    if (!newInputProcesor) {
+      console.error('Input Processor cannot be null')
+    }
+
+    this.inputProcessor = newInputProcesor
+    this.inputManager.InputProcessor = newInputProcesor
+  }
+
+  get ScreenManager() {
+    return this.screenManager
+  }
+
+  get AssetManager() {
+    return this.assetManager
+  }
+
   constructor(canvasId = 'canvas') {
     try {
       this.canvas = document.querySelector(canvasId)
@@ -15,20 +42,20 @@ export default class Game {
 
     // managing inputs
     this.keyboard = new Keyboard(this.canvas)
-    this.mouse = new Mouse(this.canvas)
-    this.inputProcessor = null
-    this.inputReader = new InputReader(this.mouse, this.keyboard, this.inputProcessor)
+    this.keyboard.create()
 
-    // managing screens
+    this.mouse = new Mouse(this.canvas)
+    this.mouse.create()
+
+    this.inputProcessor = null
+    this.inputManager = new InputManager(this.mouse, this.keyboard, this.inputProcessor)
+
     this.screenManager = new ScreenManager()
+    this.assetManager = new AssetManager()
   }
 
-  setInputProcessor(newInputProcesor) {
-    if (!newInputProcesor) {
-      console.error('Input Processor cannot be null')
-    }
-
-    this.inputProcessor = newInputProcesor
+  addImage(id, image) {
+    this.assetManager.add(id, image)
   }
 
   addScreen(id, screen) {
@@ -49,11 +76,11 @@ export default class Game {
   }
 
   #input() {
-    if (!this.inputProcessor) {
+    if (!this.inputProcessor || !this.inputManager) {
       return
     }
 
-    this.inputReader.poll()
+    // this.inputManager.poll()
   }
 
   #update() {

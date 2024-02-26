@@ -3,13 +3,13 @@ export default class RotatingQueue {
     return this.queue.length
   }
 
-  constructor(len = 10) {
-    this.len = len
+  constructor(maxSize = 10) {
+    this.maxSize = maxSize
     this.queue = []
   }
 
   push(item) {
-    if (this.queue.length >= this.len) {
+    if (this.queue.length >= this.maxSize) {
       this.queue.shift()
     }
 

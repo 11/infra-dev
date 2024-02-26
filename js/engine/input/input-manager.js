@@ -1,4 +1,8 @@
-export default class InputReader {
+export default class InputManager {
+  set InputProcessor(value) {
+    this.inputProcessor = value
+  }
+
   constructor(mouse, keyboard, inputProcessor) {
     this.mouse = mouse
     this.keyboard = keyboard
@@ -10,12 +14,12 @@ export default class InputReader {
       return
     }
 
-    if (this.mouse.events.length <= 1) {
+    if (this.mouse.events.size <= 1) {
       return
     }
 
-    const head = this.mouse.events[0]
-    const prev = this.mouse.events[1]
+    const head = this.mouse.events.get(0)
+    const prev = this.mouse.events.get(1)
     if (
       head.type === 'up' &&
       prev.type === 'down' &&
@@ -27,6 +31,9 @@ export default class InputReader {
     } else if (head.type === 'down') {
       this.inputProcessor.mouseDown(head.keyCode, head.x, head.y)
     }
+    // else if (head.type === 'move' && head.x !== prev.x && head.y !== prev.y) {
+    //   this.inputProcessor.mouseMoved(head.x, head.y)
+    // }
   }
 
   processKeyboardEvents() {
@@ -34,12 +41,12 @@ export default class InputReader {
       return
     }
 
-    if (this.keyboard.events.length <= 1) {
+    if (this.keyboard.events.size <= 1) {
       return
     }
 
-    const head = this.keyboard.events[0]
-    const prev = this.keyboard.events[1]
+    const head = this.keyboard.events.get(0)
+    const prev = this.keyboard.events.get(1)
 
     if (
       head.type === 'up' &&
@@ -54,8 +61,8 @@ export default class InputReader {
     }
   }
 
-  poll() {
-    this.processMouseEvents()
-    this.processKeyboardEvents()
-  }
+  // poll() {
+  //   this.processMouseEvents()
+  //   this.processKeyboardEvents()
+  // }
 }
